@@ -1,7 +1,3 @@
-
-/* 
- *
- */
 module.exports = function(opt){
     
     var dataIndex,
@@ -202,9 +198,11 @@ module.exports = function(opt){
     /*
      * Array insert/ Object update 
      */
-    function resultOperation(data, selector, val, flag){
+    function resultOperation(interData, selector, val, flag){
         //var d = base.getData(key);
         //var t = base.matchSelector.call(this, selector, d);
+        var data = interData.data;
+        var key = interData.key;
         var t = matchSelector(selector, data);
         if(!t) return false;
 
@@ -220,7 +218,7 @@ module.exports = function(opt){
         var d = base.encode(data);
         core.set(key, d);
         indexFun.updateIndex(key, d.length);
-        return true;
+        return data;
     }
 
     /*
@@ -310,7 +308,6 @@ module.exports = function(opt){
             callback = callback.toString();
         }
         this.data = val;
-        console.log(val);
         val = base.encode(val);
         core.set(this.key, val);
 
@@ -326,22 +323,24 @@ module.exports = function(opt){
     }
 
     function interInsert(selector, val){
-        return resultOperation(this.data, selector, val);
+        return resultOperation(this, selector, val);
     }
 
     function interUpdate(selector, val){
-        return resultOperation(this.data, selector, val, true);
+        return resultOperation(this, selector, val, true);
     }
     function interRemove(selector){
-        // if(!selector){
-        //     core.remove(key);
-        // }
-        // var d = core.get(key);
-        // if(matchSelector(selector, d)){
-        //     core.set(d);
-        //     return true;
-        // }
-        // return false;
+
+        var key = this.key;
+        var data = this.data;
+        var t = matchSelectorDel(selector, data);
+        if(!t) return false;
+
+        var d = base.encode(data);
+        core.set(key, d);
+        indexFun.updateIndex(key, d.length);
+        return true;
+
     }
 
     function Table(key){
@@ -362,12 +361,21 @@ module.exports = function(opt){
                         for(var k=0; k<ls; ++k){
                             for(var j=0, ld=data[i].length; j<ld; ++j){
                                 var t = matchSelectorDel(sel[i][k], data[i][j]);
-                                if(t) return t;
+                                console.log(sel[i][k], data[i][j], t);
+                                if(t) {
+                                    data[i].splice(j-1, 1);
+                                    return true;
+                                }
                             }
                         }
                         return false;
                     }else{//obj
-                        return matchSelectorDel(sel[i], data[i])
+                        var t = matchSelectorDel(sel[i], data[i]);
+                        console.log(sel[i], data[i], t);
+                        if(t){
+                            delete data.i;
+                        }
+                        return true;
                     }
                 }
                 else{//text//
