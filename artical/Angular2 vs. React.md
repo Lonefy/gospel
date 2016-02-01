@@ -142,8 +142,8 @@ JSX的代码支持补全，编译检测，和丰富的报错提示，这都会�
 
 
 为了进行真实的比较，我通过ng2和re（新手工具包）实现了Tour of Heroes app，结果如下：
-*Angular 2: 764k minified
-*React + Redux: 216k minified
+* Angular 2: 764k minified
+* React + Redux: 216k minified
 
 
 所以 ，在简单app的条件下，ng2的大小是三倍的reflux的大小。ng2在发布前真的要减小体积。
