@@ -2,7 +2,7 @@
 [原文地址](https://medium.freecodecamp.com/angular-2-versus-react-there-will-be-blood-66595faafd51?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io)
 by Cory House
 
-ng是一个框架，而react是一个库。有些人认为比较他们是合理的，实际上并不是这样。
+ng是一个框架，而react是一个库。有些人认为比较他们是不合理的，实际上并不是这样。
 
 >在ng和re之间做出选择就好像在现成电脑和自己攒机器之间做出选择一样。
 
