@@ -75,7 +75,7 @@ function combine(y, m, d) {
 }
 
 function doublebit(num) {
-    return (num > 10) ? num : "0" + num;
+    return (num > 9) ? num : "0" + num;
 }
 
 function getDayBefore(num, end) {
