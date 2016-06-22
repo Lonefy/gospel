@@ -24,17 +24,12 @@ module.exports = {
     },
     getPrecedingMonth: function() {
         var now = new Date(),
-            month = now.getMonth() - 1,
-            year = now.getFullYear()
+            pmonth = new Date(now.setDate(0));
 
-        if (month < 0) {
-            year--;
-            month = 11;
-        }
         return {
-            month: month,
-            start: format(combine(year, month + 1, 1)),
-            end: format(combine(year, month + 1, MOUNTH_DAY[month])),
+            month: pmonth.getMonth() + 1,
+            end: format(pmonth), //hack
+            start: format(pmonth.setDate(1))
         };
     },
     getPrecedingQuarter: function() {
@@ -53,20 +48,18 @@ module.exports = {
 
         return {
             quarter: quarter,
-            start: format(combine(year, firstMonth, 1)),
-            end: format(combine(year, lastMonth, MOUNTH_DAY[lastMonth]))
+            start: format(combine(year, doublebit(firstMonth), "01")),
+            end: format(combine(year, doublebit(lastMonth), doublebit(MOUNTH_DAY[lastMonth])))
         };
     }
 }
 
 function format(time) {
-
     if (/\d{4}-\d{2}-\d{2}/.test(time)) return time;
 
     time = new Date(time) || new Date();
     var month = +time.getMonth() + 1;
     var date = +time.getDate();
-
     return combine(time.getFullYear(), doublebit(month), doublebit(date));
 }
 
